@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Inicio')">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Hero Section -->
+    <div class="container-fluid p-0">
+        <div class="position-relative">
+            <div class="bg-dark text-white py-5" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/4792072/pexels-photo-4792072.jpeg') center/cover no-repeat;">
+                <div class="container py-5">
+                    <div class="row py-5">
+                        <div class="col-lg-8 mx-auto text-center">
+                            <h1 class="display-4 mb-4">Hortensia</h1>
+                            <p class="lead mb-4">Descubre nuestra colección de ropa tejida a mano con amor y dedicación</p>
+                            <a href="/products" class="btn btn-light btn-lg">Ver Productos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products -->
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Productos Destacados</h2>
+        <div class="row g-4">
+            <div th:each="product : ${featuredProducts}" class="col-md-4">
+                <div class="card h-100 product-card border-0 shadow-sm">
+                    <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image" style="height: 300px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${product.name}">Product Name</h5>
+                        <p class="card-text text-muted" th:text="${#strings.abbreviate(product.description, 100)}">Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0" th:text="${#numbers.formatDecimal(product.price, 1, 2) + '€'}">Price</span>
+                            <a th:href="@{/products/{id}(id=${product.id})}" class="btn btn-outline-primary">Ver Detalles</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-hand-holding-heart fa-3x text-primary mb-3"></i>
+                    <h3>Hecho a Mano</h3>
+                    <p>Cada pieza es única y elaborada con dedicación y amor.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+                    <h3>Materiales de Calidad</h3>
+                    <p>Utilizamos los mejores materiales para nuestras prendas.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="fas fa-truck fa-3x text-primary mb-3"></i>
+                    <h3>Envío Seguro</h3>
+                    <p>Entregamos tus prendas con el mayor cuidado.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="bg-light py-5 my-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h3>Suscríbete a nuestro boletín</h3>
+                    <p class="text-muted">Recibe las últimas novedades y ofertas especiales.</p>
+                    <form class="row g-3 justify-content-center">
+                        <div class="col-auto">
+                            <input type="email" class="form-control" placeholder="Tu correo electrónico">
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Suscribirse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <th:block th:replace="fragments/layout :: scripts"></th:block>
+</body>
+</html>
