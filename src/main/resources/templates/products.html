@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Productos')">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Products Header -->
+    <div class="bg-light py-5">
+        <div class="container">
+            <h1 class="text-center mb-4">Nuestros Productos</h1>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <form action="/products/search" method="GET" class="d-flex">
+                        <input type="search" name="query" class="form-control me-2" 
+                               th:value="${searchQuery}" placeholder="Buscar productos...">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="container my-5">
+        <div class="row g-4">
+            <!-- No Products Found Message -->
+            <div th:if="${#lists.isEmpty(products)}" class="col-12 text-center">
+                <h3>No se encontraron productos</h3>
+                <p class="text-muted">Intenta con una búsqueda diferente o revisa más tarde.</p>
+            </div>
+
+            <!-- Product Cards -->
+            <div th:each="product : ${products}" class="col-md-4 col-lg-3">
+                <div class="card h-100 product-card border-0 shadow-sm">
+                    <img th:src="${product.imageUrl}" class="card-img-top" 
+                         th:alt="${product.name}" style="height: 250px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${product.name}">Product Name</h5>
+                        <p class="card-text text-muted" th:text="${#strings.abbreviate(product.description, 80)}">Description</p>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="h5 mb-0" th:text="${#numbers.formatDecimal(product.price, 1, 2) + '€'}">Price</span>
+                            <span class="badge bg-success" th:if="${product.stock > 0}">Disponible</span>
+                            <span class="badge bg-danger" th:if="${product.stock == 0}">Agotado</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button th:if="${product.stock > 0}"
+                                    class="btn btn-outline-primary add-to-cart"
+                                    th:data-product-id="${product.id}"
+                                    onclick="addToCart(this)">
+                                <i class="fas fa-shopping-cart me-2"></i>Añadir al Carrito
+                            </button>
+                            <button th:if="${product.stock == 0}"
+                                    class="btn btn-secondary" disabled>
+                                Agotado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <th:block th:replace="fragments/layout :: scripts"></th:block>
+
+    <!-- Custom JavaScript -->
+    <script>
+        function addToCart(button) {
+            const productId = button.getAttribute('data-product-id');
+            
+            $.ajax({
+                url: `/cart/add/${productId}`,
+                method: 'POST',
+                data: { quantity: 1 },
+                success: function(response) {
+                    // Update cart badge and total
+                    $('.cart-badge').text(response.cartSize);
+                    
+                    // Show success message
+                    const toast = $('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">')
+                        .append(`
+                            <div class="toast-header bg-success text-white">
+                                <strong class="me-auto">Éxito</strong>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                            </div>
+                            <div class="toast-body">
+                                Producto añadido al carrito
+                            </div>
+                        `);
+                    
+                    $('body').append(toast);
+                    const bsToast = new bootstrap.Toast(toast[0]);
+                    bsToast.show();
+                    
+                    // Remove toast after it's hidden
+                    toast.on('hidden.bs.toast', function() {
+                        toast.remove();
+                    });
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    alert(response.error || 'Error al añadir al carrito');
+                }
+            });
+        }
+    </script>
+
+    <!-- Toast Container Style -->
+    <style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+        }
+    </style>
+</body>
+</html>
