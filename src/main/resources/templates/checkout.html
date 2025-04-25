@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Checkout')">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Checkout Content -->
+    <div class="container my-5">
+        <h1 class="mb-4">Finalizar Compra</h1>
+
+        <div class="row">
+            <!-- Customer Information Form -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Información Personal</h5>
+                        
+                        <form th:action="@{/orders/process}" method="post" th:object="${user}" id="checkoutForm">
+                            <!-- Alert for form errors -->
+                            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                                <ul class="mb-0">
+                                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                                </ul>
+                            </div>
+
+                            <div class="row g-3">
+                                <!-- DNI -->
+                                <div class="col-md-6">
+                                    <label for="dni" class="form-label">DNI/NIE *</label>
+                                    <input type="text" class="form-control" id="dni" th:field="*{dni}" required>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"></div>
+                                </div>
+
+                                <!-- First Name -->
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">Nombre *</label>
+                                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Apellidos *</label>
+                                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Teléfono *</label>
+                                    <input type="tel" class="form-control" id="phone" th:field="*{phone}" required>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+                                </div>
+
+                                <!-- Birthday -->
+                                <div class="col-md-6">
+                                    <label for="birthday" class="form-label">Fecha de Nacimiento *</label>
+                                    <input type="date" class="form-control" id="birthday" th:field="*{birthday}" required>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div>
+                                </div>
+
+                                <!-- Address -->
+                                <div class="col-12">
+                                    <label for="address" class="form-label">Dirección de Envío *</label>
+                                    <textarea class="form-control" id="address" th:field="*{address}" rows="3" required></textarea>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Resumen del Pedido</h5>
+                        
+                        <!-- Cart Items Summary -->
+                        <div class="mb-4">
+                            <div th:each="item : ${cartItems}" class="d-flex justify-content-between mb-2">
+                                <span>
+                                    <span th:text="${item.quantity + 'x '}"></span>
+                                    <span th:text="${item.product.name}"></span>
+                                </span>
+                                <span th:text="${#numbers.formatDecimal(item.subtotal, 1, 2) + '€'}"></span>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Totals -->
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal</span>
+                            <span th:text="${#numbers.formatDecimal(cart.total, 1, 2) + '€'}"></span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Envío</span>
+                            <span class="text-success">Gratis</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <strong>Total</strong>
+                            <strong th:text="${#numbers.formatDecimal(cart.total, 1, 2) + '€'}"></strong>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" form="checkoutForm" class="btn btn-primary" id="submitButton">
+                                Confirmar Pedido
+                            </button>
+                            <a href="/cart" class="btn btn-outline-secondary">
+                                Volver al Carrito
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <th:block th:replace="fragments/layout :: scripts"></th:block>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Form validation
+        (function() {
+            'use strict';
+            
+            const form = document.getElementById('checkoutForm');
+            
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            });
+        })();
+
+        // Validate cart before submission
+        document.getElementById('checkoutForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Validate cart contents
+            $.ajax({
+                url: '/orders/validate-cart',
+                method: 'POST',
+                success: function() {
+                    // If validation succeeds, submit the form
+                    event.target.submit();
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    alert(response.message || 'Error al procesar el pedido');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
