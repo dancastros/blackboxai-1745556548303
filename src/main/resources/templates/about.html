@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('Sobre Nosotros')">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav th:replace="fragments/layout :: navbar"></nav>
+
+    <!-- Hero Section -->
+    <div class="bg-light py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-4">Sobre Hortensia</h1>
+                    <p class="lead text-muted">
+                        Creando prendas únicas tejidas a mano con amor y dedicación desde 2023.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.pexels.com/photos/6192554/pexels-photo-6192554.jpeg" 
+                         alt="Tejiendo a mano" 
+                         class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Story -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="text-center mb-4">Nuestra Historia</h2>
+                <p class="text-muted">
+                    Hortensia nació de la pasión por el tejido artesanal y el deseo de crear prendas únicas que combinen 
+                    la tradición con el diseño contemporáneo. Cada pieza que creamos es el resultado de horas de dedicación 
+                    y atención al detalle, asegurando que cada cliente reciba una prenda verdaderamente especial.
+                </p>
+                <p class="text-muted">
+                    Nuestro compromiso con la calidad se refleja en la selección cuidadosa de los materiales y en el 
+                    proceso artesanal de creación de cada prenda. Trabajamos con las mejores lanas y fibras naturales 
+                    para garantizar no solo la belleza sino también la durabilidad de nuestras creaciones.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Values -->
+    <div class="bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Nuestros Valores</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-heart fa-3x text-primary mb-3"></i>
+                        <h4>Artesanía</h4>
+                        <p class="text-muted">
+                            Cada pieza es creada a mano con dedicación y amor, asegurando la más alta calidad en cada detalle.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+                        <h4>Sostenibilidad</h4>
+                        <p class="text-muted">
+                            Utilizamos materiales sostenibles y procesos respetuosos con el medio ambiente.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h4>Comunidad</h4>
+                        <p class="text-muted">
+                            Apoyamos a artesanos locales y fomentamos la preservación de técnicas tradicionales.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Our Process -->
+    <div class="container my-5">
+        <h2 class="text-center mb-5">Nuestro Proceso</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="display-4 text-primary mb-3">1</div>
+                        <h5>Selección de Materiales</h5>
+                        <p class="text-muted">Elegimos cuidadosamente las mejores lanas y materiales.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="display-4 text-primary mb-3">2</div>
+                        <h5>Diseño</h5>
+                        <p class="text-muted">Creamos diseños únicos que combinan tradición y modernidad.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="display-4 text-primary mb-3">3</div>
+                        <h5>Tejido a Mano</h5>
+                        <p class="text-muted">Cada pieza es tejida a mano con dedicación y cuidado.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <div class="display-4 text-primary mb-3">4</div>
+                        <h5>Control de Calidad</h5>
+                        <p class="text-muted">Verificamos cada detalle antes del envío.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="bg-primary text-white py-5">
+        <div class="container text-center">
+            <h2 class="mb-4">¿Tienes alguna pregunta?</h2>
+            <p class="lead mb-4">Estamos aquí para ayudarte con cualquier consulta sobre nuestros productos.</p>
+            <a href="/contact" class="btn btn-light btn-lg">Contáctanos</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer th:replace="fragments/layout :: footer"></footer>
+
+    <!-- Scripts -->
+    <th:block th:replace="fragments/layout :: scripts"></th:block>
+</body>
+</html>
