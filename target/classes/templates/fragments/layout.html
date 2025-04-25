@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Hortensia'">Hortensia</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+        .product-card {
+            transition: transform 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        .cart-badge {
+            position: relative;
+            top: -10px;
+            right: 5px;
+            padding: 3px 6px;
+            border-radius: 50%;
+            background-color: #dc3545;
+            color: white;
+            font-size: 0.7rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/">Hortensia</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/products">Productos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">Sobre Nosotros</a>
+                    </li>
+                </ul>
+                
+                <form class="d-flex me-3" action="/products/search" method="GET">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar productos...">
+                    <button class="btn btn-outline-primary" type="submit">Buscar</button>
+                </form>
+                
+                <a href="/cart" class="btn btn-outline-dark">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" th:text="${session.cart != null ? session.cart.itemCount : 0}">0</span>
+                    <span class="ms-2" th:text="${session.cart != null ? #numbers.formatDecimal(session.cart.total, 1, 2) + '€' : '0.00€'}">0.00€</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Footer -->
+    <footer th:fragment="footer" class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>Hortensia</h5>
+                    <p>Ropa tejida a mano con amor y dedicación.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Enlaces</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/products">Productos</a></li>
+                        <li><a href="/about">Sobre Nosotros</a></li>
+                        <li><a href="/contact">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Contacto</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i>info@hortensia.com</li>
+                        <li><i class="fas fa-phone me-2"></i>+34 123 456 789</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Madrid, España</li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 Hortensia. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts fragment -->
+    <th:block th:fragment="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </th:block>
+</body>
+</html>
